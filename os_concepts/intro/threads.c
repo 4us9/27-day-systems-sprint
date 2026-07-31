@@ -28,19 +28,23 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    loops = atoi(argv[1]);
-    pthreads_t p1, p2;
+    loops = atoi(argv[1]); //1. text receives from command line and store in loops
+    pthread_t p1, p2; //`pthread_t` type. Creates two threads
 
     printf("Initial value: %d\n", counter);
 
     //Program creates two threads
+    //Each thread increments `counter` of `loops` times
     Pthread_create(&p1, NULL, worker, NULL); //routine called worker that increments `loops`
     Pthread_create(&p2, NULL, worker, NULL);
 
 
+    //Wait for both to finish
     Pthread_join(p1, NULL);
     Pthread_join(p2, NULL);
 
+
+    //Final output
     printf("Final value: %d\n", counter);
     return 0;
 
