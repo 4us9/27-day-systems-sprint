@@ -1,6 +1,15 @@
 from fastai.text.all import *
 import torch
 
+'''
+fastai creates a learner with fresh pretrained AWD-LSTM 
+weights and performs all the fine-tuning again. 
+Each epoch must reread batches, calculate predictions, calculate gradients,
+and update millions of parameters. 
+Those calculations cannot simply be reused because 
+they are the training process itself.
+'''
+
 device = torch.device("cpu")
 print("Using:", device)
 
