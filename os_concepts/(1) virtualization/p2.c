@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     }
 
     else {
-
+        //parent process calls wait to finish child before running its own
         int rc_wait = wait(NULL); 
         printf("parent of %d (rc_wait: %d) (pid: %d)\n", rc, rc_wait, (int) getpid());
     }
