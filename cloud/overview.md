@@ -19,3 +19,5 @@ Platform as a Service (PaaS): Delivers and manages all the hardware and software
 Infrastructure as a Service (IaaS): Gives on-demand infrastructure resources to customers (compute, storage, netowrking, and virtualization). Customers are responsible for the OS, middleware, virtual machines, and any apps or data. 
 
 *Paperplace blends both PaaS and IaaS for access of hardware virtually while in a friendly-environment*
+
+*There are aspects you manage and aspects the cloud service provider manages. Each cloud category has different roles.*
