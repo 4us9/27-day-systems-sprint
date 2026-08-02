@@ -4,7 +4,7 @@
 
 /*
 It is interesting how strange fork() system call is. It creates a child process then resumes from that spot. So effectively,
-parent PID and child PID will both go through the two conditionals, printing both messages from the conditions rc == 0 (child) and rc < 0 (parent) checks.
+parent PID and child PID will both go through the two conditionals, printing both messages from the conditions rc == 0 (child) and rc > 0 (parent) checks.
 
 */
 int main(int argc, char *argv[]) {
