@@ -1,10 +1,7 @@
 from fastai.text.all import *
 import torch
 
-device = torch.device(
-    "mps" if torch.backends.mps.is_available() else "cpu"
-)
-
+device = torch.device("cpu")
 print("Using:", device)
 
 path = untar_data(URLs.IMDB)
@@ -12,8 +9,8 @@ path = untar_data(URLs.IMDB)
 dls = TextDataLoaders.from_folder(
     path,
     valid="test",
-    device=device,
-    num_workers=0
+    num_workers=0,
+    device=device
 )
 
 learn = text_classifier_learner(
@@ -24,3 +21,9 @@ learn = text_classifier_learner(
 )
 
 learn.fine_tune(4, 1e-2)
+
+#When the model finally gets done training...
+learn.predict("I really liked that movie!") 
+
+
+
