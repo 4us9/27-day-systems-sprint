@@ -10,7 +10,8 @@ It is always the order of
 1. child
 2. parent
 
-In p1.c, the order is NOT deterministic.
+In p1.c, the order is NOT deterministic. Even in this program it isn't, therefore if parent were
+to go first, we have a wait() ready for this.
 */
 int main(int argc, char *argv[]) {
 
