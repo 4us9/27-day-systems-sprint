@@ -78,8 +78,9 @@ class SimpleCardClassifier(nn.Module):
     def forward(self, x):
         #Connect these parts and return the output
         x=self.features(x)
-        output = self.classifier(x)
+        x=torch.flatten(x,1)
         
+        output = self.classifier(x)
         return output
 
 model=SimpleCardClassifier(num_classes=53).to(device)
@@ -108,7 +109,11 @@ for epoch in range(num_epoch):
     #Set model to train
     model.train()
     running_loss=0.0
+    
     for images, labels in train_loader:
+        images = images.to(device)
+        labels = labels.to(device)
+        
         optimizer.zero_grad()
         outputs=model(images)
         loss=criterion(outputs, labels)
@@ -126,6 +131,10 @@ for epoch in range(num_epoch):
     #Ensure model weight not touched 
     with torch.no_grad():
         for images, labels in val_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            
             outputs=model(images)
             loss=criterion(outputs, labels)
             running_loss += loss.item() * images.size(0)
