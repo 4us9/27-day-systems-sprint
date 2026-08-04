@@ -75,7 +75,15 @@ class SimpleCardClassifier(nn.Module):
 
 model=SimpleCardClassifier(num_classes=53)
 
-print(model)
+example_output = model(images)
 
-#Testing if structure of model can accept images provided.
-print(model(images))
+###Step 3: Training loop - used to train the model###
+
+#Feed into model many times and perform loss function to the output received. 
+#This is how the model learns. We do this in batches, hence DataLoader.
+
+#optimizer & loss function
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+print(criterion(example_output, labels))
