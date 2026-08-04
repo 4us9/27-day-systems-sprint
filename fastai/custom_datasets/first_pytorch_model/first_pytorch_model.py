@@ -76,3 +76,6 @@ class SimpleCardClassifier(nn.Module):
 model=SimpleCardClassifier(num_classes=53)
 
 print(model)
+
+#Testing if structure of model can accept images provided.
+print(model(images))
