@@ -42,5 +42,11 @@ data='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/
     
 dataset=PlayingCardDataset(data, transform)
 
-image, label = dataset[100]
-print(image.shape) #Now we can see the size of the 3D tensor
+###Dataloader -- to parallize which PyTorch does for uss
+dataloader=DataLoader(dataset, batch_size=32, shuffle=True)
+
+#Iterate dataloader
+for images, labels in dataloader:
+    break
+
+print(images.shape)
