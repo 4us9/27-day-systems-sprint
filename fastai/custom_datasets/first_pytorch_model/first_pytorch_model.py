@@ -30,7 +30,17 @@ class PlayingCardDataset(Dataset):
         return self.data.classes 
     
 
-dataset = PlayingCardDataset(
-    data_dir='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data'
-)
+#transforming data to be the same size as model expects it
+
+transform = transforms.Compose([
     
+    transforms.Resize([128,128]),
+    transforms.ToTensor(),
+])
+
+data='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data/archive/train'
+    
+dataset=PlayingCardDataset(data, transform)
+
+image, label = dataset[100]
+print(image.shape) #Now we can see the size of the 3D tensor
