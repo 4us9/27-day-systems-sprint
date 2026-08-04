@@ -83,11 +83,15 @@ class SimpleCardClassifier(nn.Module):
         output = self.classifier(x)
         return output
 
-model=SimpleCardClassifier(num_classes=53).to(device)
-
-example_output = model(images)
 
 ###Step 3: Training loop - used to train the model###
+images = images.to(device)
+labels = labels.to(device)
+
+model = SimpleCardClassifier(num_classes=53).to(device)
+
+example_output=model(images)
+
 
 #Feed into model many times and perform loss function to the output received. 
 #This is how the model learns. We do this in batches, hence DataLoader.
@@ -101,9 +105,8 @@ print(criterion(example_output, labels)) #test to see if loss func. is working f
 #TRAINING LOOP 5 EPOCH (5 runs of entire training set)
 num_epoch = 5
 
-train_loss, val_loss = [], []
-
-model = SimpleCardClassifier(num_classes=53)
+train_losses = []
+val_losses = []
 
 for epoch in range(num_epoch):
     #Set model to train
@@ -122,7 +125,7 @@ for epoch in range(num_epoch):
         running_loss+=loss.item() * images.size(0)
     
     train_loss= running_loss / len(train_loader.dataset)
-    train_loss.append(train_loss)
+    train_losses.append(train_loss)
     
     #Validation phase
     model.eval()
@@ -140,7 +143,7 @@ for epoch in range(num_epoch):
             running_loss += loss.item() * images.size(0)
     
     val_loss=running_loss/len(val_loader.dataset)
-    val_loss.append(val_loss)
+    val_losses.append(val_loss)
         
     #Print epoch stats
     print(f"Epoch {epoch+1}/{num_epoch} - Train loss: {train_loss}, Validation loss: {val_loss}")    
