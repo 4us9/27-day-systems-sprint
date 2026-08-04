@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt #for data visualization
 import pandas as pd
 import numpy as np
 
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+print("Using device:", device)
+
 ###Step 1: set up Dataset###
 class PlayingCardDataset(Dataset):
     def __init__(self, data_dir, transform=None):
@@ -79,7 +82,7 @@ class SimpleCardClassifier(nn.Module):
         
         return output
 
-model=SimpleCardClassifier(num_classes=53)
+model=SimpleCardClassifier(num_classes=53).to(device)
 
 example_output = model(images)
 
@@ -94,3 +97,42 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 print(criterion(example_output, labels)) #test to see if loss func. is working from images fed to training model
 
+#TRAINING LOOP 5 EPOCH (5 runs of entire training set)
+num_epoch = 5
+
+train_loss, val_loss = [], []
+
+model = SimpleCardClassifier(num_classes=53)
+
+for epoch in range(num_epoch):
+    #Set model to train
+    model.train()
+    running_loss=0.0
+    for images, labels in train_loader:
+        optimizer.zero_grad()
+        outputs=model(images)
+        loss=criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        running_loss+=loss.item() * images.size(0)
+    
+    train_loss= running_loss / len(train_loader.dataset)
+    train_loss.append(train_loss)
+    
+    #Validation phase
+    model.eval()
+    running_loss = 0.0
+    
+    #Ensure model weight not touched 
+    with torch.no_grad():
+        for images, labels in val_loader:
+            outputs=model(images)
+            loss=criterion(outputs, labels)
+            running_loss += loss.item() * images.size(0)
+    
+    val_loss=running_loss/len(val_loader.dataset)
+    val_loss.append(val_loss)
+        
+    #Print epoch stats
+    print(f"Epoch {epoch+1}/{num_epoch} - Train loss: {train_loss}, Validation loss: {val_loss}")    
+    
