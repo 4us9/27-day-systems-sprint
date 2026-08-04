@@ -38,15 +38,21 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-data='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data/archive/train'
-    
-dataset=PlayingCardDataset(data, transform)
+train_folder ='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data/archive/train'
+valid_folder='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data/archive/valid'
+test_folder = '/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data/archive/test'
+
+train_dataset=PlayingCardDataset(train_folder, transform)
+val_dataset= PlayingCardDataset(valid_folder, transform=transform)
+test_dataset = PlayingCardDataset(test_folder, transform=transform)
 
 ###Dataloader -- to parallize which PyTorch does for uss
-dataloader=DataLoader(dataset, batch_size=32, shuffle=True)
+train_loader=DataLoader(train_dataset, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 #Iterate dataloader
-for images, labels in dataloader:
+for images, labels in train_loader:
     break
 
 print(images.shape)
@@ -86,4 +92,5 @@ example_output = model(images)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-print(criterion(example_output, labels))
+print(criterion(example_output, labels)) #test to see if loss func. is working from images fed to training model
+
