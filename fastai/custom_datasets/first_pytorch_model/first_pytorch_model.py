@@ -22,7 +22,7 @@ class PlayingCardDataset(Dataset):
     
     def __len__(self):
         return len(self.data)
-    def __getitem(self, idx):
+    def __getitem__(self, idx): #spcial method for indexing
         return self.data[idx]
     
     @property
@@ -35,3 +35,5 @@ dataset = PlayingCardDataset(
 )
     
 print(len(dataset))
+
+print(dataset[0])
