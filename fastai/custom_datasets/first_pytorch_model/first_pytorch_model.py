@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt #for data visualization
 import pandas as pd
 import numpy as np
 
-#Step 1: set up Dataset
+###Step 1: set up Dataset###
 class PlayingCardDataset(Dataset):
     def __init__(self, data_dir, transform=None):
         self.data = ImageFolder(data_dir, transform=transform)
@@ -50,3 +50,29 @@ for images, labels in dataloader:
     break
 
 print(images.shape)
+
+###Step 2: PyTorch model###
+#State-of-art pre-trained models from timm
+class SimpleCardClassifier(nn.Module):
+    def __init__(self, num_classes=53):
+        super(SimpleCardClassifier, self).__init__()
+        
+        #Where we define all the parts of the model
+        self.base_model= timm.create_model('efficientnet_b0', pretrained=True)
+        self.features=nn.Sequential(*list(self.base_model.children())[:-1])
+        
+        enet_out_size=1280
+        
+        #Make a classifier
+        self.classifier=nn.Linear(enet_out_size, num_classes)
+        
+    def forward(self, x):
+        #Connect these parts and return the output
+        x=self.features(x)
+        output = self.classifier(x)
+        
+        return output
+
+model=SimpleCardClassifier(num_classes=53)
+
+print(model)
