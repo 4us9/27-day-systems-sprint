@@ -23,3 +23,6 @@ build/
 # Secrets
 .env
 *.pem
+
+#datasets file
+fastai/custom_datasets/first_pytorch_model/data

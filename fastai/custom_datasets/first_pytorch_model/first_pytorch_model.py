@@ -34,6 +34,3 @@ dataset = PlayingCardDataset(
     data_dir='/Users/pang/Documents/Coding/27-day-systems-sprint/fastai/custom_datasets/first_pytorch_model/data'
 )
     
-print(len(dataset))
-
-print(dataset[0])
