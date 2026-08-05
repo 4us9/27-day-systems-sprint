@@ -121,3 +121,10 @@ y_hat = X@W+b
 #Our model prediction
 print(f"Prediction y_hat (first three rows):\n {y_hat[:3]}\n") #terrible prediction BUT the Backward is doing its auto differentiation. The Periphery NS is working
 print(f"Ture labels (first three rows):\n {y_true[:3]}\n")
+
+#Loss function (MSE for linear regression)
+error = y_hat - y_true
+squared_error = error**2
+loss = squared_error.mean()
+
+print(f"Loss (our single scorecard number): {loss}") #MAKE THIS NUMBER AS SMALL AS POSSIBLE.
