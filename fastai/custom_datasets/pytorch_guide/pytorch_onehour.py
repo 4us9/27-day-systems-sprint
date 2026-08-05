@@ -129,8 +129,6 @@ loss = squared_error.mean()
 
 print(f"Loss (our single scorecard number): {loss}") #MAKE THIS NUMBER AS SMALL AS POSSIBLE.
 
-##Learning process (partial derivatives through backpropagation)
-loss.backward()
 
 #Now, the `.grad` will tell us what knobs to adjust
 #The gradients are stored in the .grad attributes
@@ -140,9 +138,22 @@ print(f"Gradient for b:\n {b.grad}\n") #negative W/b means we need to increase t
 ##TRAINING LOOP (Gradient descent)
 learning_rate, epochs = 0.01, 100 #n // hyperparameters
 
+for epoch in range(epochs):                   
+    #Forward pass and loss
+    y_hat = X@W + b
+    loss = torch.mean((y_hat-y_true)**2)
+    
+    #Backward pass
+    loss.backward()
+    
+    #Update parms
+    with torch.no_grad():
+        W -= learning_rate * W.grad; b-= learning_rate * b.grad
 
-W_new = W - learning_rate * W.grad #sub + negative grad turns into positive
-b_new = b - learning_rate * b.grad
+    #Zero gradients -- get ready for next epoch
+    W.grad.zero_(); b.grad.zero_()
+
+
 
 #Repeat epoch 5 times
 #`torch.no_grad()` this tells PyTorch to not track param updates in autograd
