@@ -71,15 +71,20 @@ def past_patterns():
     print(avg_for_each_student)
 
 
-x = torch.arange(12).reshape(3,4)
-print(x)
+    ###INDEXING
+    x = torch.arange(12).reshape(3,4)
+    print(x)
 
-col_2 = x[:2,] #get the 3rd column (at index 2) -- gives all rows but only at index 2
+    col_2 = x[:2,] #get the 3rd column (at index 2) -- gives all rows but only at index 2
 
-print(col_2)
+    print(col_2)
 
-row_0 = x[0,:] #at row 0, give me all the columns
+    row_0 = x[0,:] #at row 0, give me all the columns
 
+
+    ### DYNAMIC SELECTION: `ARGMAX` -- get largest
+
+    ### gather -- more specific retrival of an element
 
 
 
