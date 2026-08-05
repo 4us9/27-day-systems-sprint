@@ -2,24 +2,47 @@ import torch
 #In PyTorch, a tensor is a specialized, multi-dimensional array used 
 # to store and manipulate model inputs, outputs, and parameters
 
-### PATTERN 1: DIRECT CREATION FROM DATA
-data = [[1,2,3],[4,5,6]]
+def past_patterns():
+    ### PATTERN 1: DIRECT CREATION FROM DATA
+    data = [[1,2,3],[4,5,6]]
 
-my_tensor = torch.tensor(data)
+    my_tensor = torch.tensor(data)
 
-print(my_tensor) #This output gives a tensor object that mirrors a list (two rows)
-###
+    print(my_tensor) #This output gives a tensor object that mirrors a list (two rows)
+    ###
 
-### PATTERN 2: CREATION FROM DESIRED SHAPE
-# Using it when initializing model weights
-# Know shape you need, but not the values yet    
+    ### PATTERN 2: CREATION FROM DESIRED SHAPE
+    # Using it when initializing model weights
+    # Know shape you need, but not the values yet    
 
-shape = (2,3) #tuple of two rows and three columns
-ones = torch.ones(shape)
-zeros= torch.zeros(shape)
-random = torch.randn(shape)
+    shape = (2,3) #tuple of two rows and three columns
+    ones = torch.ones(shape)
+    zeros= torch.zeros(shape)
+    random = torch.randn(shape)
 
-print(f"Random Tensor:\n {random}")
-print(f"Zero Tensor:\n {zeros}")
-print(f"Zero Tensor:\n {ones}")
+    print(f"Random Tensor:\n {random}")
+    print(f"Zero Tensor:\n {zeros}")
+    print(f"Zero Tensor:\n {ones}")
+
+    ### PATTERN 3: CREATION BY MIMICKING ANOTHER TENSOR
+    #Sometimes need a tensor with same shape and type as another. So we MIMICK
+
+    template = torch.tensor([[1,2],[3,4]])
+
+    #notice the random is the exact replica as the template except different values
+    rand_like = torch.randn_like(template, dtype=torch.float) 
+
+    print(f"Template Tensor:\n {template}\n")
+    print(f"Randn_like Tensor:\n {rand_like}")
+ 
+
+###WHAT IS INSIDE A TENSOR?? Shape, type, and device
+# (You will be using these constantly for debugging) 
+tensor = torch.randn(2,3)
+print(f"Shape: {tensor.shape}") #tuple describing dimensions. THIS IS #1 DEBUGGING.
+print(f"Data type: {tensor.dtype}") #default is float32 for tensor. This is cause of gradients (the power of nudging). Weights and biases need to be float
+print(f"Device: {tensor.device}") #Where the tensors lives (CPU or GPU/CUDA)
+
+
+
 
