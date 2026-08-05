@@ -62,6 +62,15 @@ def past_patterns():
     matrix_product = m1@m2
 
 
+#DIM (where dim=0 calculates (by tensor.(data).mean(dim=#)) each vertical, and dim=1 calculates horizontal)
+#
+scores = torch.tensor([[10., 20., 30.], [5., 10., 15.]])
+avg_for_each_assignment = scores.mean(dim=0)
+avg_for_each_student = scores.mean(dim=1)
+
+print(avg_for_each_assignment)
+print(avg_for_each_student)
+
 
 
 
