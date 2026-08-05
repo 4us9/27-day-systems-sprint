@@ -34,14 +34,33 @@ def past_patterns():
 
     print(f"Template Tensor:\n {template}\n")
     print(f"Randn_like Tensor:\n {rand_like}")
- 
+    
+    ###WHAT IS INSIDE A TENSOR?? Shape, type, and device
+    # (You will be using these constantly for debugging) 
+    tensor = torch.randn(2,3)
+    print(f"Shape: {tensor.shape}") #tuple describing dimensions. THIS IS #1 DEBUGGING.
+    print(f"Data type: {tensor.dtype}") #default is float32 for tensor. This is cause of gradients (the power of nudging). Weights and biases need to be float
+    print(f"Device: {tensor.device}") #Where the tensors lives (CPU or GPU/CUDA)
 
-###WHAT IS INSIDE A TENSOR?? Shape, type, and device
-# (You will be using these constantly for debugging) 
-tensor = torch.randn(2,3)
-print(f"Shape: {tensor.shape}") #tuple describing dimensions. THIS IS #1 DEBUGGING.
-print(f"Data type: {tensor.dtype}") #default is float32 for tensor. This is cause of gradients (the power of nudging). Weights and biases need to be float
-print(f"Device: {tensor.device}") #Where the tensors lives (CPU or GPU/CUDA)
+### AUTOGRAD (Automatic Differentiation) -- PyTorch's built-in gradient calculator
+requires_grad = True #"The Magic Switch" Because tensor is just data, so you need it to be a learnable param
+#tells that it is a param, so track every operation that happens to this tensor.
+
+a = torch.tensor(2.0, requires_grad=True)
+b = torch.tensor(3.0, requires_grad=True)
+c = torch.tensor(4.0, requires_grad=True)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
