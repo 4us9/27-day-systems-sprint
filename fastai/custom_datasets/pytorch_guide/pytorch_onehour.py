@@ -86,8 +86,38 @@ def past_patterns():
 
     ### gather -- more specific retrival of an element
 
+### Forward Pass: Model's first guess
+#Linear Regression: y(hat) = XW+b -- y (hat) is model prediction, x is the input, 'w' is weight, 'b' is bias
+#Changes weights and bias to get as close to the prediction as possible.
+
+##First Step - Creating Our Data
+N = 10 #10 data points batch of data
+
+#1 input feature & 1 output value
+D_in = 1
+D_out = 1
+
+X = torch.randn(N,D_in)
+
+print(X)
+
+#True target labels
+true_W = torch.tensor([[2.]]) #weights are vectors
+true_b = torch.tensor(1.)
+
+y_true = X @true_W + true_b + (torch.randn(N, D_out) * 0.1) # XW + b + (little noise)
+
+#Initialize params (that it actually learn) and turn on the 'magic switch'
+W = torch.randn(D_in, D_out, requires_grad=True)
+b = torch.randn(1, requires_grad=True)
+
+print(f"Initial Weight W:\n {W}\n")
+print(f"Initial Bias b:\n {b}")
+
+#Implementation from math to code
+y_hat = X@W+b
 
 
-
-
-
+#Our model prediction
+print(f"Prediction y_hat (first three rows):\n {y_hat[:3]}\n") #terrible prediction BUT the Backward is doing its auto differentiation. The Periphery NS is working
+print(f"Ture labels (first three rows):\n {y_true[:3]}\n")
