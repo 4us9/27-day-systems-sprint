@@ -61,21 +61,24 @@ def past_patterns():
 
     matrix_product = m1@m2
 
+    #DIM (where dim=0 calculates (by tensor.(data).mean(dim=#)) each vertical, and dim=1 calculates horizontal)
+    #
+    scores = torch.tensor([[10., 20., 30.], [5., 10., 15.]])
+    avg_for_each_assignment = scores.mean(dim=0)
+    avg_for_each_student = scores.mean(dim=1)
 
-#DIM (where dim=0 calculates (by tensor.(data).mean(dim=#)) each vertical, and dim=1 calculates horizontal)
-#
-scores = torch.tensor([[10., 20., 30.], [5., 10., 15.]])
-avg_for_each_assignment = scores.mean(dim=0)
-avg_for_each_student = scores.mean(dim=1)
-
-print(avg_for_each_assignment)
-print(avg_for_each_student)
-
+    print(avg_for_each_assignment)
+    print(avg_for_each_student)
 
 
+x = torch.arange(12).reshape(3,4)
+print(x)
 
+col_2 = x[:2,] #get the 3rd column (at index 2) -- gives all rows but only at index 2
 
+print(col_2)
 
+row_0 = x[0,:] #at row 0, give me all the columns
 
 
 
