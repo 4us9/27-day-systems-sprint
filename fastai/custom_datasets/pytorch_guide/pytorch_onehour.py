@@ -42,15 +42,24 @@ def past_patterns():
     print(f"Data type: {tensor.dtype}") #default is float32 for tensor. This is cause of gradients (the power of nudging). Weights and biases need to be float
     print(f"Device: {tensor.device}") #Where the tensors lives (CPU or GPU/CUDA)
 
-### AUTOGRAD (Automatic Differentiation) -- PyTorch's built-in gradient calculator
-requires_grad = True #"The Magic Switch" Because tensor is just data, so you need it to be a learnable param
-#tells that it is a param, so track every operation that happens to this tensor.
+    ### AUTOGRAD (Automatic Differentiation) -- PyTorch's built-in gradient calculator
+    requires_grad = True #"The Magic Switch" Because tensor is just data, so you need it to be a learnable param
+    #tells that it is a param, so track every operation that happens to this tensor.
 
-a = torch.tensor(2.0, requires_grad=True)
-b = torch.tensor(3.0, requires_grad=True)
-c = torch.tensor(4.0, requires_grad=True)
+    a = torch.tensor(2.0, requires_grad=True)
+    b = torch.tensor(3.0, requires_grad=True)
+    c = torch.tensor(4.0, requires_grad=True)
 
+    ### THE "verbs" of PyTorch
 
+    #Element wise: * (Multiplication) -- only works for the same shape
+
+    #Element wise: @ (Powers neural networks -- matrix multiplication)
+    #For linear layer of y = xW + b, you are always using the @. 
+    m1 = torch.tensor([[1,2,3],[4,5,6]]) #(2,3)
+    m2 = torch.tensor([[7,8,],[9,10],[11,12]]) # (3,2)
+
+    matrix_product = m1@m2
 
 
 
