@@ -1,4 +1,6 @@
 import torch
+import torch.nn
+
 #In PyTorch, a tensor is a specialized, multi-dimensional array used 
 # to store and manipulate model inputs, outputs, and parameters
 
@@ -86,75 +88,89 @@ def past_patterns():
 
     ### gather -- more specific retrival of an element
 
-### Forward Pass: Model's first guess
-#Linear Regression: y(hat) = XW+b -- y (hat) is model prediction, x is the input, 'w' is weight, 'b' is bias
-#Changes weights and bias to get as close to the prediction as possible.
+    ### Forward Pass: Model's first guess
+    #Linear Regression: y(hat) = XW+b -- y (hat) is model prediction, x is the input, 'w' is weight, 'b' is bias
+    #Changes weights and bias to get as close to the prediction as possible.
 
-##First Step - Creating Our Data
-N = 10 #10 data points batch of data
+    ##First Step - Creating Our Data
+    N = 10 #10 data points batch of data
 
-#1 input feature & 1 output value
+    #1 input feature & 1 output value
+    D_in = 1
+    D_out = 1
+
+    X = torch.randn(N,D_in)
+
+    print(X)
+
+    #True target labels
+    true_W = torch.tensor([[2.]]) #weights are vectors
+    true_b = torch.tensor(1.)
+
+    y_true = X @true_W + true_b + (torch.randn(N, D_out) * 0.1) # XW + b + (little noise)
+
+    #Initialize params (that it actually learn) and turn on the 'magic switch'
+    W = torch.randn(D_in, D_out, requires_grad=True)
+    b = torch.randn(1, requires_grad=True)
+
+    print(f"Initial Weight W:\n {W}\n")
+    print(f"Initial Bias b:\n {b}")
+
+    #Implementation from math to code
+    y_hat = X@W+b
+
+
+    #Our model prediction
+    print(f"Prediction y_hat (first three rows):\n {y_hat[:3]}\n") #terrible prediction BUT the Backward is doing its auto differentiation. The Periphery NS is working
+    print(f"Ture labels (first three rows):\n {y_true[:3]}\n")
+
+    #Loss function (MSE for linear regression)
+    error = y_hat - y_true
+    squared_error = error**2
+    loss = squared_error.mean()
+
+    print(f"Loss (our single scorecard number): {loss}") #MAKE THIS NUMBER AS SMALL AS POSSIBLE.
+
+
+    #Now, the `.grad` will tell us what knobs to adjust
+    #The gradients are stored in the .grad attributes
+    print(f"Gradient for W:\n {W.grad}\n")
+    print(f"Gradient for b:\n {b.grad}\n") #negative W/b means we need to increase to decrease the loss
+
+    ##TRAINING LOOP (Gradient descent)
+    learning_rate, epochs = 0.01, 100 #n // hyperparameters
+
+    for epoch in range(epochs):                   
+        #Forward pass and loss
+        y_hat = X@W + b
+        loss = torch.mean((y_hat-y_true)**2)
+        
+        #Backward pass
+        loss.backward()
+        
+        #Update parms
+        with torch.no_grad():
+            W -= learning_rate * W.grad; b-= learning_rate * b.grad
+
+        #Zero gradients -- get ready for next epoch
+        W.grad.zero_(); b.grad.zero_()
+
+### PROFESSIONAL TOOLS NOW (`torch.nn`)
+
+#torch.nn.linear WX+b
 D_in = 1
 D_out = 1
 
-X = torch.randn(N,D_in)
+X = torch.randn(10,D_in)
 
-print(X)
+#Create the Lienar layer LEGO brick
+linear_layer = torch.nn.Linear(in_features=D_in, out_features=D_out)
 
-#True target labels
-true_W = torch.tensor([[2.]]) #weights are vectors
-true_b = torch.tensor(1.)
+print(f"Layer's Weight (W): {linear_layer.weight}")
+print(f"Layer's Bias (b): {linear_layer.bias}\n")
 
-y_true = X @true_W + true_b + (torch.randn(N, D_out) * 0.1) # XW + b + (little noise)
+#Now you use the lienar neural network like a functioning. Passing forward.
+y_hat_nn = linear_layer(X) #prediction -- notice requires_grad True is by default
 
-#Initialize params (that it actually learn) and turn on the 'magic switch'
-W = torch.randn(D_in, D_out, requires_grad=True)
-b = torch.randn(1, requires_grad=True)
+print(f"Output of nn.Linear (first 3 rows)\n: {y_hat_nn[:3]}")
 
-print(f"Initial Weight W:\n {W}\n")
-print(f"Initial Bias b:\n {b}")
-
-#Implementation from math to code
-y_hat = X@W+b
-
-
-#Our model prediction
-print(f"Prediction y_hat (first three rows):\n {y_hat[:3]}\n") #terrible prediction BUT the Backward is doing its auto differentiation. The Periphery NS is working
-print(f"Ture labels (first three rows):\n {y_true[:3]}\n")
-
-#Loss function (MSE for linear regression)
-error = y_hat - y_true
-squared_error = error**2
-loss = squared_error.mean()
-
-print(f"Loss (our single scorecard number): {loss}") #MAKE THIS NUMBER AS SMALL AS POSSIBLE.
-
-
-#Now, the `.grad` will tell us what knobs to adjust
-#The gradients are stored in the .grad attributes
-print(f"Gradient for W:\n {W.grad}\n")
-print(f"Gradient for b:\n {b.grad}\n") #negative W/b means we need to increase to decrease the loss
-
-##TRAINING LOOP (Gradient descent)
-learning_rate, epochs = 0.01, 100 #n // hyperparameters
-
-for epoch in range(epochs):                   
-    #Forward pass and loss
-    y_hat = X@W + b
-    loss = torch.mean((y_hat-y_true)**2)
-    
-    #Backward pass
-    loss.backward()
-    
-    #Update parms
-    with torch.no_grad():
-        W -= learning_rate * W.grad; b-= learning_rate * b.grad
-
-    #Zero gradients -- get ready for next epoch
-    W.grad.zero_(); b.grad.zero_()
-
-
-
-#Repeat epoch 5 times
-#`torch.no_grad()` this tells PyTorch to not track param updates in autograd
-#`.grad.zero_()` -- set gradients after each iteration. If we didn't gradients would add on and gets really messy
