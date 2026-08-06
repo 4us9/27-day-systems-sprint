@@ -155,22 +155,31 @@ def past_patterns():
         #Zero gradients -- get ready for next epoch
         W.grad.zero_(); b.grad.zero_()
 
-### PROFESSIONAL TOOLS NOW (`torch.nn`)
+    ### PROFESSIONAL TOOLS NOW (`torch.nn`)
 
-#torch.nn.linear WX+b
-D_in = 1
-D_out = 1
+    #torch.nn.linear WX+b
+    D_in = 1
+    D_out = 1
 
-X = torch.randn(10,D_in)
+    X = torch.randn(10,D_in)
 
-#Create the Lienar layer LEGO brick
-linear_layer = torch.nn.Linear(in_features=D_in, out_features=D_out)
+    #Create the Lienar layer LEGO brick
+    linear_layer = torch.nn.Linear(in_features=D_in, out_features=D_out)
 
-print(f"Layer's Weight (W): {linear_layer.weight}")
-print(f"Layer's Bias (b): {linear_layer.bias}\n")
+    print(f"Layer's Weight (W): {linear_layer.weight}")
+    print(f"Layer's Bias (b): {linear_layer.bias}\n")
 
-#Now you use the lienar neural network like a functioning. Passing forward.
-y_hat_nn = linear_layer(X) #prediction -- notice requires_grad True is by default
+    #Now you use the lienar neural network like a functioning. Passing forward.
+    y_hat_nn = linear_layer(X) #prediction -- notice requires_grad True is by default
 
-print(f"Output of nn.Linear (first 3 rows)\n: {y_hat_nn[:3]}")
+    print(f"Output of nn.Linear (first 3 rows)\n: {y_hat_nn[:3]}")
+    
+#Relu (rectified linear unit -- more production use)
+relu = torch.nn.ReLU()
+sample_data = torch.tensor([-2., -0.5, -0., 0.5, 2.])
+
+activated_data = relu(sample_data)
+
+print(f"Original Data: {sample_data}")
+print(f"Data after ReLU: {activated_data}")
 
