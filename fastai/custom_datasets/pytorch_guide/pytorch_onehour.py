@@ -184,14 +184,29 @@ def past_patterns():
     print(f"Data after ReLU: {activated_data}")
     
 
-#nn.geLU (Gaussian Error Linear Unit)
-#The modern standard for Transformers (GPT, Llama). A smoother, gently curving version of ReLU
-gelu = torch.nn.GELU()
-sample_data = torch.tensor([-2.,-0.5,0.,0.5,2.0])
-activated_data = gelu(sample_data)
+    #nn.geLU (Gaussian Error Linear Unit)
+    #The modern standard for Transformers (GPT, Llama). A smoother, gently curving version of ReLU
+    gelu = torch.nn.GELU()
+    sample_data = torch.tensor([-2.,-0.5,0.,0.5,2.0])
+    activated_data = gelu(sample_data)
 
-print(f"Original Data: {sample_data}")
-print(f"Data after GELU: {activated_data}") #negative aren't to zero just towards it. So this smoothness is good for massive models
+    print(f"Original Data: {sample_data}")
+    print(f"Data after GELU: {activated_data}") #negative aren't to zero just towards it. So this smoothness is good for massive models
+    
+    ###Essential Layers for LLMs (Models like GPT, LLAMA, and Gemini uses them)
+
+    #Embeddings (word to numbers) -- giant learnable lookup table where each word gets a unique vector
+    vocab_size = 10 #A language with 10 unique words
+    embedding_dim = 3 #Each word to a 3D vector
+
+    embedding_layer = torch.nn.Embedding(vocab_size, embedding_dim)
+
+    #Input: A sentence where eaech word is an ID. e.g., 1, 5, 0, 8
+    input_ids = torch.tensor([[1,5,0,8]])
+    word_vectors = embedding_layer(input_ids) #passing in like a function 
+
+    print(word_vectors)
+
 
 
 
