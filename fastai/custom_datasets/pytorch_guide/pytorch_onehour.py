@@ -216,5 +216,19 @@ def past_patterns():
     print(f"Mean (should be ~0): {normalized_features.mean(dim=-1)}")
     print(f"Std Dev (should be ~1): {normalized_features.std(dim=-1)}")
 
+    ###NN.DROPOUT -- prevents overfitting (only happens during training)
+    dropout_layer = torch.nn.Dropout(p=0.5)
+    input_tensor = torch.ones(1, 10)
+
+    #Activate dropout for training
+    dropout_layer.train()
+    output_during_train = dropout_layer(input_tensor)
+
+    #Deactivate dropout for evaluation/prediction
+    dropout_layer.eval()
+    output_during_eval = dropout_layer(input_tensor)
+
+    print(f"Output during evaluation \n {output_during_eval}")
+
 
 
