@@ -207,6 +207,14 @@ def past_patterns():
 
     print(word_vectors)
 
+    ### NN.LAYERNORM -- prevents the values from vanishing
+    norm_layer = torch.nn.LayerNorm(normalized_shape = 3)
+
+    input_features = torch.tensor([[[1., 2., 3.], [4., 5., 6.]]])
+    normalized_features = norm_layer(input_features)
+
+    print(f"Mean (should be ~0): {normalized_features.mean(dim=-1)}")
+    print(f"Std Dev (should be ~1): {normalized_features.std(dim=-1)}")
 
 
 
