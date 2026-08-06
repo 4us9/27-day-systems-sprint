@@ -256,3 +256,24 @@ optimizer = torch.nn.optim.Adam(model.parameters(), lr=learning_rate) #create Ad
 
 #Loss Function (pre-built)
 loss_fn = torch.nn.MSELoss() 
+
+###Training Loop (universal pattern in PyTorch code)
+# 1. optimizer.zero_grad() -> 2. loss.backward() -> 3. optimizer.step()
+
+epochs = 100
+
+for epoch in range(epochs):
+    #Forward pass
+    y_hat = model(X)
+    
+    #Calculate loss
+    loss = loss_fn(y_hat, y_true)
+    
+    #3 Line Mantra
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    
+    if epoch%10 == 0:
+        print(f"Epoch {epoch:02d} : Loss={loss.item():.4f}")
+        
