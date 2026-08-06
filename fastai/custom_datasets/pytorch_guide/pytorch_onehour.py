@@ -1,6 +1,7 @@
 import torch
 import torch.nn
 
+
 #In PyTorch, a tensor is a specialized, multi-dimensional array used 
 # to store and manipulate model inputs, outputs, and parameters
 
@@ -229,6 +230,23 @@ def past_patterns():
     output_during_eval = dropout_layer(input_tensor)
 
     print(f"Output during evaluation \n {output_during_eval}")
+
+
+### Update of LinearClassifier Model (for Clean, Standard, and Scalable)
+
+#No loose tensors: (inherit nn.Module) -> define layers in __init__ -> connect layers in forward
+class LinearRegressionModel(torch.nn.Module):
+    def __init__(self, in_features, out_features):
+        super().__init__()
+        
+        self.linear_layer = torch.nn.Linear(in_features, out_features)
+        
+    def forward(self, x):
+        return self.linear_layer(x)
+
+model = LinearRegressionModel(in_features=1, out_features=1) 
+
+print(f"Model Architecture {model}") #params now neatly organized
 
 
 
