@@ -248,5 +248,11 @@ model = LinearRegressionModel(in_features=1, out_features=1)
 
 print(f"Model Architecture {model}") #params now neatly organized
 
+#The Optmizer
+learning_rate = 0.01 #hyperparameters
+
+optimizer = torch.nn.optim.Adam(model.parameters(), lr=learning_rate) #create Adam optmizer, and which tensor to manage (`model.parameters()`)
 
 
+#Loss Function (pre-built)
+loss_fn = torch.nn.MSELoss() 
