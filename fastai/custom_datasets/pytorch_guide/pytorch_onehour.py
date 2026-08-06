@@ -174,12 +174,24 @@ def past_patterns():
 
     print(f"Output of nn.Linear (first 3 rows)\n: {y_hat_nn[:3]}")
     
-#Relu (rectified linear unit -- more production use)
-relu = torch.nn.ReLU()
-sample_data = torch.tensor([-2., -0.5, -0., 0.5, 2.])
+    #Relu (rectified linear unit -- more production use)
+    relu = torch.nn.ReLU()
+    sample_data = torch.tensor([-2., -0.5, -0., 0.5, 2.])
 
-activated_data = relu(sample_data)
+    activated_data = relu(sample_data)
+
+    print(f"Original Data: {sample_data}")
+    print(f"Data after ReLU: {activated_data}")
+    
+
+#nn.geLU (Gaussian Error Linear Unit)
+#The modern standard for Transformers (GPT, Llama). A smoother, gently curving version of ReLU
+gelu = torch.nn.GELU()
+sample_data = torch.tensor([-2.,-0.5,0.,0.5,2.0])
+activated_data = gelu(sample_data)
 
 print(f"Original Data: {sample_data}")
-print(f"Data after ReLU: {activated_data}")
+print(f"Data after GELU: {activated_data}") #negative aren't to zero just towards it. So this smoothness is good for massive models
+
+
 
