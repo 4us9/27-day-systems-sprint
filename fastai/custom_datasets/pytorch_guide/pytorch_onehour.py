@@ -276,4 +276,5 @@ for epoch in range(epochs):
     
     if epoch%10 == 0:
         print(f"Epoch {epoch:02d} : Loss={loss.item():.4f}")
-        
+
+# THE PROCESS WE USED TO TRAIN A 2-PARAM MODEL IS THE EXACT SAME PROCESS USED TO TRAIN AN 8B PARAM LLM AND HIGHER!
