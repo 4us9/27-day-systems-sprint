@@ -1,7 +1,7 @@
 **Module 1:**
 Week 2
-- [ ] Divide and Conquer Algo
-- [ ] The Master Method
+- [x] Divide and Conquer Algo
+- [x] The Master Method
 
 Week 3
 - [ ] Quick Sort Algo
