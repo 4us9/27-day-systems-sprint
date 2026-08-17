@@ -1,3 +1,5 @@
 #!/bin/bash
 
-echo "Hello World"
+read lastname
+
+echo "Your name is $lastname"
